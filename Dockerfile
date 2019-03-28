@@ -9,6 +9,7 @@
 # OCI CLI Last Version
 # OpenJdk 8
 # Oracle Sqlcl 18.4
+# Vault 0.11.6
 #
 # HOW TO BUILD THIS IMAGE
 # -----------------------
@@ -59,7 +60,13 @@ RUN unzip ./sqlcl-18.4.0.007.1818.zip && \
 #Sqlcl with oci option needs Oracle Instant Client
 ENV LD_LIBRARY_PATH=/usr/lib/oracle/18.3/client64/lib
 
-ENV PATH=$PATH:/usr/lib/oracle/18.3/client64/bin:/devops/sqlcl/bin
+#Vault 0.11.6
+RUN mkdir vault && \
+    wget https://releases.hashicorp.com/vault/0.11.6/vault_0.11.6_linux_amd64.zip && \
+    unzip vault_0.11.6_linux_amd64.zip -d ./vault && \
+    rm -rf vault_0.11.6_linux_amd64.zip
+
+ENV PATH=$PATH:/usr/lib/oracle/18.3/client64/bin:/devops/sqlcl/bin:/devops/vault
 
 COPY showtoolsversion.sh .
 RUN  chmod +x showtoolsversion.sh
