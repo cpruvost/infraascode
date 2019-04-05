@@ -10,6 +10,10 @@
 # OpenJdk 8
 # Oracle Sqlcl 18.4
 # Vault 0.11.6
+# Kubectl 1.13.2
+# Helm
+#
+# TO DO LIST : put variables for version of products.
 #
 # HOW TO BUILD THIS IMAGE
 # -----------------------
@@ -66,7 +70,19 @@ RUN mkdir vault && \
     unzip vault_0.11.6_linux_amd64.zip -d ./vault && \
     rm -rf vault_0.11.6_linux_amd64.zip
 
-ENV PATH=$PATH:/usr/lib/oracle/18.3/client64/bin:/devops/sqlcl/bin:/devops/vault
+#Kubectl
+COPY kubernetes.repo .
+RUN  mv ./kubernetes.repo /etc/yum.repos.d/ && \
+     yum -y install kubectl
+
+#Helm
+RUN mkdir helm && \
+    curl -LO https://storage.googleapis.com/kubernetes-helm/helm-v2.13.1-linux-amd64.tar.gz && \
+    tar -zxvf helm-v2.13.1-linux-amd64.tar.gz -C ./helm && \
+    chmod +x ./helm/linux-amd64/helm && \
+    rm -rf helm-v2.13.1-linux-amd64.tar.gz
+
+ENV PATH=$PATH:/usr/lib/oracle/18.3/client64/bin:/devops/sqlcl/bin:/devops/vault:/devops/helm/linux-amd64
 
 COPY showtoolsversion.sh .
 RUN  chmod +x showtoolsversion.sh
