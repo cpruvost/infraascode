@@ -11,6 +11,8 @@ The Tools are :
 - OpenJdk 8
 - Oracle Sqlcl 18.4
 - Vault 0.11.6
+- kubectl
+- helm
 
 You have to download sqlcl-18.4.0.007.1818.zip on Oracle Web Site before building this image. Sqlcl is the new tool that replace the old sqlplus.
 
